@@ -1,70 +1,130 @@
-# Getting Started with Create React App
+# Role-Based Access Control (RBAC) React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple React app demonstrating **Role-Based Access Control (RBAC)** using Material-UI components. The app allows different users (Admin, HR, User) to view, create, edit, and delete items based on their roles and permissions.
 
-## Available Scripts
+## Folder Structure
+rbac/ ├── src/ │ ├── components/ │ │ └── drawer/ │ │ └── drawer.js # Main component for the app's layout and logic │ ├── App.js # The root component that renders the drawer component │ ├── index.js # Entry point for the React app │ ├── App.css # Global styles └── README.md # Documentation for the app
 
-In the project directory, you can run:
+## Installation
 
-### `npm start`
+1. Clone the repository:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+git clone https://github.com/your-username/rbac-react-app.git
+cd rbac-react-app
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Install dependencies:
 
-### `npm test`
+npm install
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Run the development Server:
 
-### `npm run build`
+npm start
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The app will be available at http://localhost:3000/.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Features
+Role-Based Access Control
+Admin:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Can create new items
+Can edit existing items
+Can delete items
+Can view all items
+HR:
 
-### `npm run eject`
+Can create new items
+Can edit existing items
+Cannot delete items
+Can view all items
+User:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Cannot create new items
+Cannot edit existing items
+Cannot delete items
+Can view all items
+Functionalities
+View Items: Depending on the selected role, users can view the items in the table.
+Create Items: Admins and HR can create new items.
+Edit Items: Admins and HR can edit existing items.
+Delete Items: Only Admins can delete items.
+Responsive Drawer: The app uses a responsive navigation drawer that can be toggled on mobile devices. The drawer displays the available roles (Admin, HR, User) and allows the user to switch between them.
+Code Structure
+src/components/drawer/drawer.js
+This is the main component of the app, which contains the following key parts:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Role Selection: Users can select a role from the navigation drawer (Admin, HR, or User). The selected role determines the permissions available to the user.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Permissions: Based on the selected role, different permissions are granted. These permissions control the ability to view, create, edit, or delete items.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Modal for Add/Edit Item: A modal is used to add or edit items. Users with appropriate permissions can open this modal to make changes.
 
-## Learn More
+Table for Displaying Items: A Material-UI table is used to display the items, with action buttons for editing and deleting (based on permissions).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Permissions Management
+The rolePermissions object maps roles to specific permissions (canAdd, canEdit, canDelete, and canView). For example:
+```bash
+const rolePermissions = {
+  Admin: {
+    canAdd: true,
+    canEdit: true,
+    canDelete: true,
+    canView: true,
+    details: [
+      "Can create new items",
+      "Can edit existing items",
+      "Can delete items",
+      "Can view all items",
+    ],
+  },
+  HR: {
+    canAdd: true,
+    canEdit: true,
+    canDelete: false,
+    canView: true,
+    details: [
+      "Can create new items",
+      "Can edit existing items",
+      "Cannot delete items",
+      "Can view all items",
+    ],
+  },
+  User: {
+    canAdd: false,
+    canEdit: false,
+    canDelete: false,
+    canView: true,
+    details: [
+      "Cannot create new items",
+      "Cannot edit existing items",
+      "Cannot delete items",
+      "Can view all items",
+    ],
+  },
+};
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Modal for Creating and Editing Items
+When the user clicks the "Add Item" button (if they have permission to do so), a modal will appear where they can input the name and description of a new item. Similarly, if the user has permission to edit an item, they can click the "Edit" button in the table to modify an existing item.
 
-### Code Splitting
+Material-UI Components
+Drawer: A responsive side navigation that shows roles and permissions.
+Table: Displays a list of items with the ability to view, edit, or delete based on the permissions.
+Modal: For adding and editing items.
+Snackbar: Provides feedback for actions like saving, deleting, or editing items.
+How to Use
+Select a Role: Click on any of the roles (Admin, HR, User) from the side drawer to see the permissions associated with that role.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+View Items: All users can view the list of items in the table.
 
-### Analyzing the Bundle Size
+Create New Item: Admin and HR roles can click the "Add Item" button to create a new item. Users without this permission won't see the button.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Edit Item: Admin and HR roles can click the "Edit" button on any item to modify its details.
 
-### Making a Progressive Web App
+Delete Item: Only Admin can delete items by clicking the "Delete" button next to an item.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Conclusion
+This React app demonstrates the concept of Role-Based Access Control (RBAC) with different user roles and permissions. The app is built using Material-UI for a clean and responsive UI. Depending on the selected role, users can perform different actions on the list of items.
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Feel free to customize and expand this app as per your needs!
